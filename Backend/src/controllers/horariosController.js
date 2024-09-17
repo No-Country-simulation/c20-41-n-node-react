@@ -19,7 +19,7 @@ export const getHorariosController = async (req, res) => {
 	try {
 		const horarios = await getHorarios(id_medico);
 
-		return res.status(400).json(horarios);
+		return res.status(200).json(horarios);
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({error});
