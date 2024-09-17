@@ -1,0 +1,46 @@
+.info-steps-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: "Nobile", sans-serif;
+    position:relative;
+    left: 1rem;
+    top: 2rem;
+  }
+  
+  .info-title {
+    font-size: 1.5rem;
+    color: #2a2a2a;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  .info-steps-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .info-steps-list li {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .info-steps-list li:before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #007bff;
+    font-size: 1.5rem;
+  }
+  
+  .info-steps-list strong {
+    color: #007bff; 
+  }
+  

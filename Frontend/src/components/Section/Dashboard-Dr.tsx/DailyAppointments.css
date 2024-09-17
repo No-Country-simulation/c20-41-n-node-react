@@ -1,45 +1,61 @@
-.appointments-container {
-    max-width: 900px; 
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .appointments-container h2 {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .appointments-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .appointments-table th, .appointments-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .appointments-table th {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .appointments-table td {
-    background-color: white;
-    color: #333;
-  }
-  
-  .appointments-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .appointments-table td[colspan="4"] {
-    text-align: center;
-  }
-  
+.daily-card-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f8ff; /* Fondo claro */
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.daily-card-title {
+  text-align: center;
+  font-size: 28px;
+  color: #003366; /* Azul oscuro */
+  margin-bottom: 30px;
+}
+
+.appointment-card {
+  background-color: #007bff; /* Azul */
+  color: white;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.appointment-card .card-header h3 {
+  margin: 0;
+}
+
+.appointment-card .card-header .status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.appointment-card .card-header .status.confirmada {
+  background-color: #28a745; /* Verde */
+}
+
+.appointment-card .card-header .status.pendiente {
+  background-color: #ffc107; /* Amarillo */
+}
+
+.appointment-card .card-header .status.cancelada {
+  background-color: #dc3545; /* Rojo */
+}
+
+.appointment-card .card-body {
+  font-size: 18px;
+}
+
+.appointment-card .card-body p {
+  margin: 5px 0;
+}

@@ -42,6 +42,7 @@ export const logoutUser = async () => {
 export const authenticate = async () => {
   try {
     const response = await frontend.get(`/auth/status`);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -75,6 +76,17 @@ export const authDoctor = async () => {
 export const authAdmin = async () => {
   try {
     const response = await frontend.get(`/admin`);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+  }
+};
+
+export const getSchedule = async (id) => {
+  try {
+    const response = await frontend.get(`/horarios/${id}`);
     return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -19,10 +19,10 @@ function DoctorNav({ state }: Props) {
         path="./todas-las-citas"
       />
       <SidebarNavItem
-        title="Ajustar Horario"
+        title="Consultar Horario"
         Icon={TimeEditIcon}
         state={state}
-        path="./ajustar-horario"
+        path="./consultar-horario"
       />
       <SidebarNavItem
         title="Lista de Pacientes"

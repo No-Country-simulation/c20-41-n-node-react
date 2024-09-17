@@ -46,7 +46,7 @@ function App() {
                 path="todas-las-citas"
                 element={<TestimonialSection />}
               />
-              <Route path="ajustar-horario" element={<FeatureSection />} />
+              <Route path="consultar-horario" element={<ScheduleAppointments />} />
               <Route path="lista-de-pacientes" element={<FeatureSection />} />
               <Route path="ver-perfil" element={<FeatureSection />} />
               <Route path="*" element={<Navigate to="citas-del-dia" />} />
@@ -77,7 +77,6 @@ function App() {
           <Route path="/prueba-medico/*" element={<HomePage />}>
             <Route path="citas-del-dia" element={<DailyAppointments />} />
             <Route path="consultar-cita-del-mes" element={<AppointmentsList />} />
-            <Route path="consultar-horario" element={<ScheduleAppointments />} />
             <Route path="listado-de-pacientes" element={<FeatureSection />} />
             <Route path="ver-perfil" element={<FeatureSection />} />
             <Route path="" element={<Navigate to="citas-del-dia" />} />
