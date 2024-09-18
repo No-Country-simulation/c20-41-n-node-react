@@ -1,4 +1,4 @@
-import RegisterForm from "../Form/RegisterForm";
+import RegisterForm from "../../Form/RegisterForm";
 
 function AddDoctorSection() {
   return (

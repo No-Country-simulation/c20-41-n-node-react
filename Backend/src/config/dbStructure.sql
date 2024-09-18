@@ -117,10 +117,7 @@ VALUES
 
 
 
---tablas: horarios_disponibles, agendamientos, sesiones, videollamadas, sesiones_notas
-
--- horarios_disponibles: id_medico, dia_semana, hora_inicio, hora_fin (los turnos disponibles de la semana; se puede generar con una funcion (id_medico, array_dias_de_trabajo, hora_inicio, hora_fin, duracion_consulta, duracion_descanso)=>(query sql p/ borrar los datos relacionados a ese medico y cargarlos nuevamente)
--- tambien se podria completar manualmente supongo
+--tablas: horarios_disponibles, agendamientos, consultas, videollamadas?, notas_consultas
 
 CREATE TABLE dias_semana (
 	id INTEGER PRIMARY KEY,
@@ -147,11 +144,11 @@ CREATE TABLE agendamientos (
 	fechahora_inicio TIMESTAMP NOT NULL,
 	fechahora_fin TIMESTAMP NOT NULL,
 	estado estado_agendamiento NOT NULL,
+	url_videollamada VARCHAR(50),
 	creadaEl VARCHAR(20) NOT NULL,
 	actualizadaEl VARCHAR(20) NOT NULL
 );
 
--- consultas: id, id_agendamiento, fechahora_inicio, fechahora_fin, estado 
 CREATE TABLE consultas (
 	id SERIAL PRIMARY KEY,
 	id_agendamiento INTEGER REFERENCES agendamientos(id),
@@ -161,12 +158,12 @@ CREATE TABLE consultas (
 	actualizadaEl VARCHAR(20) NOT NULL
 );
 
----- videollamadas: id, id_sesion, hora_inicio, hora_fin
+---- videollamadas: id, id_consulta, hora_inicio, hora_fin
 ---- para saber a que fechahora encienden camaras y microfono
 --CREATE TYPE evento_videollamada AS ENUM ('START','END','MIC:ON','MIC:OFF','CAM:ON','CAM:OFF','DROP');
 --CREATE TABLE videollamadas_eventos (
 --	id SERIAL PRIMARY KEY,
---	id_sesion INTEGER REFERENCES sesiones(id) NOT NULL,
+--	id_consulta INTEGER REFERENCES consultas(id) NOT NULL,
 --	id_medico INTEGER REFERENCES medicos(id),
 --	id_paciente INTEGER REFERENCES pacientes(id),
 --	fechahora TIMESTAMP NOT NULL,
@@ -177,10 +174,10 @@ CREATE TABLE consultas (
 --	)
 --);
 
--- notas de medico durante consultas
+-- notas de consultas
 CREATE TABLE notas_consultas (
 	id SERIAL PRIMARY KEY,
-	id_sesion INTEGER REFERENCES sesiones(id),
+	id_consulta INTEGER REFERENCES consultas(id),
 	nota TEXT NOT NULL,
 	creadaEl VARCHAR(20) NOT NULL,
 	actualizadaEl VARCHAR(20) NOT NULL
@@ -194,4 +191,76 @@ CREATE TABLE conclusiones_consultas (
 	creadaEl VARCHAR(20) NOT NULL,
 	actualizadaEl VARCHAR(20) NOT NULL
 );
+
+
+CREATE VIEW medicos_view AS
+	SELECT * FROM (
+		SELECT
+			id id_medico,
+			usuario_id uid_medico,
+			especialidad_id id_esp,
+			numero_registro nro_reg_medico
+			FROM medicos) m
+		JOIN (
+			SELECT
+				nro_documento nro_doc_medico,
+				tipo_documento tipo_doc_medico,
+				nombre nombre_medico,
+				apellido apellido_medico,
+				genero genero_medico,
+				fecha_nacimiento fecha_nac_medico,
+				email email_medico,
+				nacionalidad nacionalidad_medico,
+				telefono tel_medico
+			FROM usuarios
+			WHERE rol='medico') u
+		ON m.uid_medico=u.nro_doc_medico
+		JOIN (
+			SELECT
+				id id_esp_medico,
+				nombre nombre_esp_medico,
+				descripcion desc_esp_medico
+			FROM especialidades) e
+		ON e.id_esp_medico=m.id_esp;
+
+CREATE VIEW pacientes_view AS
+	SELECT * FROM (
+		SELECT
+			id id_paciente,
+			usuario_id uid_paciente,
+			direccion direccion_paciente
+			FROM pacientes) p
+		JOIN (
+			SELECT
+				nro_documento nro_doc_paciente,
+				tipo_documento tipo_doc_paciente,
+				nombre nombre_paciente,
+				apellido apellido_paciente,
+				genero genero_paciente,
+				fecha_nacimiento fecha_nac_paciente,
+				email email_paciente,
+				nacionalidad nacionalidad_paciente,
+				telefono tel_paciente
+			FROM usuarios
+			WHERE rol='paciente') u
+		ON p.uid_paciente=u.nro_doc_paciente;
+
+CREATE VIEW agendamientos_view AS
+	SELECT 
+		id id_agendamiento,
+		fechahora_inicio::date fecha_inicio,
+		fechahora_inicio::time hora_inicio,
+		fechahora_fin::date fecha_fin,
+		fechahora_fin::time hora_fin,
+		fechahora_inicio,
+		fechahora_fin,
+		estado,
+		creadael, actualizadael,
+		p.*, m.*
+	FROM
+		agendamientos a
+		JOIN pacientes_view p
+			ON p.id_paciente=a.id_paciente
+		JOIN medicos_view m
+			ON m.id_medico=a.id_medico;
 

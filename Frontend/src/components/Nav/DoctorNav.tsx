@@ -1,6 +1,5 @@
 import UsersIcon from "../../icons/Users";
 import SidebarNavItem from "./SidebarNavItem";
-import DayIcon from "../../icons/Day";
 import CalendarMonthIcon from "../../icons/CalendarMonth";
 import TimeEditIcon from "../../icons/TimeEdit";
 
@@ -11,7 +10,6 @@ type Props = {
 function DoctorNav({ state }: Props) {
   return (
     <>
-      <SidebarNavItem title="Citas del Día" Icon={DayIcon} state={state} path="./citas-del-dia" />
       <SidebarNavItem
         title="Todas las Citas"
         Icon={CalendarMonthIcon}

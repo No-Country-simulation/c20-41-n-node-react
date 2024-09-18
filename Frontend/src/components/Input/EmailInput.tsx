@@ -24,7 +24,7 @@ function EmailInput({
         type="email"
         placeholder={placeholder}
         className={
-          "ps-2 pb-1 border-b-2 bg-transparent border-gray-200 focus:outline-none " +
+          "ps-2 pb-1 border-b-2 bg-transparent border-gray-200 focus:outline-none text-base " +
           classes
         }
         {...register(name, {

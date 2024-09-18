@@ -7,7 +7,8 @@ import EmailInput from "../Input/EmailInput";
 import PasswordInput from "../Input/PasswordInput";
 import FullButton from "../Button/FullButton";
 import { UserContext } from "../../context/UserContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import ButtonLoading from "../Loading/ButtonLoading";
 
 function LoginForm() {
   const {
@@ -17,11 +18,13 @@ function LoginForm() {
   } = useForm();
 
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<JSX.Element | undefined>()
 
   const { handleLogin } = useContext(UserContext);
 
   const onSubmit = handleSubmit(async (values) => {
     try {
+      setIsLoading(<ButtonLoading classes="border-white border-t-blue-300"/>)
       const result = await loginUser(values);
       if (result.message) {
         // Si todo salió bien
@@ -33,6 +36,7 @@ function LoginForm() {
 
       if (result.error) {
         // Si hubo un error
+        setIsLoading(undefined)
         toast.error(result.error, { position: "bottom-right" });
       }
     } catch (error) {
@@ -78,7 +82,7 @@ function LoginForm() {
           >
             ¿Olvistaste tu contraseña?
           </Link>
-          <FullButton title="Iniciar Sesión" color="blue" type="submit" />
+          <FullButton title="Iniciar Sesión" color="blue" type="submit" loading={isLoading} />
         </footer>
 
         <span className="text-sm">

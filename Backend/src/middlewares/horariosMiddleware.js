@@ -66,7 +66,7 @@ const bodyUpdateHorarios = Joi.object({
 export const validateGetHorarios = (req, res, next) => {
 	const paramsValidation = paramsGetHorarios.validate(req.params);
 	if (paramsValidation.error) {
-		return res.status(200)//fix
+		return res.status(400)
 			.json({ error: paramsValidation.error.details[0].message })
 	} 
 
@@ -76,13 +76,13 @@ export const validateGetHorarios = (req, res, next) => {
 export const validateUpdateHorarios = (req, res, next) => {
 	const paramsValidation = paramsUpdateHorarios.validate(req.params);
 	if (paramsValidation.error) {
-		return res.status(200)//fix
+		return res.status(400)
 			.json({ error: paramsValidation.error.details[0].message })
 	} 
 
 	const bodyValidation = bodyUpdateHorarios.validate(req.body);
 	if (bodyValidation.error) {
-		return res.status(200)//fix
+		return res.status(400)
 			.json({ error: bodyValidation.error.details[0].message });
 	} 
 

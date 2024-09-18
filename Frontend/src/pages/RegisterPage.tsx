@@ -17,7 +17,7 @@ function RegisterPage() {
   return (
     <main className="min-h-screen flex flex-col">
       <Navbar />
-      <section className="p-4 flex flex-1 flex-col justify-center items-center bg-gradient-to-br from-blue-200 to-blue-500">
+      <section className="p-4 flex flex-1 flex-col justify-center items-center bg-[url('/images/bg-tele.jpg')] bg-cover">
         <RegisterForm rol="paciente" />
       </section>
     </main>

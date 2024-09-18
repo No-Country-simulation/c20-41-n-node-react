@@ -87,6 +87,44 @@ export const authAdmin = async () => {
 export const getSchedule = async (id) => {
   try {
     const response = await frontend.get(`/horarios/${id}`);
+  }
+}
+export const getAllConsult = async () => {
+  try {
+    const response = await frontend.get(`/agendamientos`);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+  }
+};
+
+export const getConsult = async (nro_documento: number = 0) => {
+  try {
+    const response = await frontend.get(`/agendamientos/paciente/${nro_documento}`);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+  }
+};
+
+export const getDoctorConsult = async (nro_documento: number = 0) => {
+  try {
+    const response = await frontend.get(`/agendamientos/medico/${nro_documento}`);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+  }
+};
+
+export const getAllDoctors = async () => {
+  try {
+    const response = await frontend.get(`/admin/doctors`);
     return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {

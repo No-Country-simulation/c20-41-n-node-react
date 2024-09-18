@@ -4,7 +4,7 @@ type Props = {
     title: string
     type?: "button" | "submit"
     color: "blue" | "white"
-
+    loading?: JSX.Element 
 }
 
 const BUTTON_COLORS = {
@@ -12,13 +12,13 @@ const BUTTON_COLORS = {
     white: "text-black bg-white hover:bg-slate-200",
   };
 
-function FullButton({title, type="button", color}: Props) {
+function FullButton({title, type="button", color, loading}: Props) {
   return (
     <button
       type={type}
-      className={"py-2 rounded-lg font-semibold " + BUTTON_COLORS[color]}
+      className={"py-2 rounded-lg font-semibold flex gap-2 items-center justify-center " + BUTTON_COLORS[color]}
     >
-      {title}
+      {title} {loading}
     </button>
   );
 }

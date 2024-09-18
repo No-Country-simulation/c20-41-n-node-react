@@ -11,6 +11,8 @@ import NumberInput from "../Input/NumberInput";
 import TelephoneInput from "../Input/TelephoneInput";
 import DateInput from "../Input/DateInput";
 import FullButton from "../Button/FullButton";
+import { useState } from "react";
+import ButtonLoading from "../Loading/ButtonLoading";
 
 type Props = {
   rol: "paciente" | "medico";
@@ -25,18 +27,25 @@ function RegisterForm({ rol }: Props) {
   } = useForm();
 
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState<JSX.Element | undefined>()
 
   const onSubmit = handleSubmit(async (values) => {
     try {
       values.rol = rol;
+      values.fecha_nacimiento = values.fecha_nacimiento.split("-").reverse().join("-")
+      setIsLoading(<ButtonLoading/>)
       const result = await registerUser(values);
       if (result.message) {
         toast.success(result.message, { position: "bottom-right" });
         if (rol === "paciente") {
           navigate("/login");
         }
+        if (rol === "medico") {
+          navigate("./lista-de-medicos")
+        }
       }
       if (result.error) {
+        setIsLoading(undefined)
         toast.error(result.error, { position: "bottom-right" });
       }
     } catch (error) {
@@ -200,7 +209,7 @@ function RegisterForm({ rol }: Props) {
           />
         )}
 
-        <FullButton title="Confirmar Registro" color="white" type="submit" />
+        <FullButton title="Confirmar Registro" color="white" type="submit" loading={isLoading} />
       </section>
     </form>
   );

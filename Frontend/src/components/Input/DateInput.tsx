@@ -18,7 +18,7 @@ function DateInput({
 }: Props) {
   return (
     <label>
-      <div className="grid md:grid-cols-2 text-black gap-x-2 gap-y-3 ps-1">
+      <div className="grid md:grid-cols-2 text-black gap-x-2 gap-y-3 ps-1 text-base">
         {placeholder}
         <input
           type="date"

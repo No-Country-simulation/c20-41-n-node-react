@@ -12,6 +12,12 @@ const paramsGetAgendamientosDisponibles  = Joi.object({
 			'any.required': 'El campo id_medico es obligatorio.'}),
 });
 
+const paramsGetAgendamientosDisponiblesPorEspecialidad  = Joi.object({
+	id_especialidad: Joi.number().required()
+		.messages({
+			'any.required': 'El campo id_especialidad es obligatorio.'}),
+});
+
 const queryGetAgendamientosDisponibles  = Joi.object({
 	fechahora_inicio: Joi.string().isoDate().required()
 		.messages({
@@ -20,7 +26,6 @@ const queryGetAgendamientosDisponibles  = Joi.object({
 		.messages({
 			'string.isoDate': 'El formato de fecha debe ser string isoDate'})
 });
-
 
 const paramsAgendar = Joi.object({
 	id_medico: Joi.number().required()
@@ -59,7 +64,7 @@ export const validateGetAgendamiento = (req, res, next) => {
 	const { error } = paramsGetAgendamiento.validate(req.params);
 
 	if (error) {
-		return res.status(200).json({ error: error.details[0].message })
+		return res.status(400).json({ error: error.details[0].message })
 	}
 
 	next();
@@ -68,7 +73,7 @@ export const validateGetAgendamiento = (req, res, next) => {
 export const validateGetAgendamientosDisponibles = (req, res, next) => {
 	const paramsValidation = paramsGetAgendamientosDisponibles.validate(req.params);
 	if (paramsValidation.error) {
-		return res.status(200).json({ error: paramsValidation.error.details[0].message }) //fix
+		return res.status(400).json({ error: paramsValidation.error.details[0].message }) //fix
 	}
 
 	const queryValidation = queryGetAgendamientosDisponibles.validate(req.query);
@@ -79,15 +84,39 @@ export const validateGetAgendamientosDisponibles = (req, res, next) => {
 	next();
 }
 
+export const validateGetAllAgendamientosDisponibles = (req, res, next) => {
+	console.log('get all disponibles validation');
+	const queryValidation = queryGetAgendamientosDisponibles.validate(req.query);
+	if (queryValidation.error) {
+		return res.status(400).json({ error: queryValidation.error.details[0].message }) //fix
+	}
+
+	next();
+}
+
+export const validateGetAgendamientosDisponiblesPorEspecialidad = (req, res, next) => {
+	const paramsValidation = paramsGetAgendamientosDisponiblesPorEspecialidad.validate(req.params);
+	if (paramsValidation.error) {
+		return res.status(400).json({ error: paramsValidation.error.details[0].message }) //fix
+	}
+
+	const queryValidation = queryGetAgendamientosDisponibles.validate(req.query);
+	if (queryValidation.error) {
+		return res.status(400).json({ error: queryValidation.error.details[0].message }) //fix
+	}
+
+	next();
+}
+
 export const validateAgendar = (req, res, next) => {
 	const paramsValidation = paramsAgendar.validate(req.params);
 	if (paramsValidation.error) {
-		return res.status(200).json({ error: paramsValidation.error.details[0].message }) //fix
+		return res.status(400).json({ error: paramsValidation.error.details[0].message }) //fix
 	}
 
 	const bodyValidation = bodyAgendar.validate(req.body);
 	if (bodyValidation.error) {
-		return res.status(200).json({ error: bodyValidation.error.details[0].message }) //fix
+		return res.status(400).json({ error: bodyValidation.error.details[0].message }) //fix
 	}
 
 	next();
@@ -96,12 +125,12 @@ export const validateAgendar = (req, res, next) => {
 export const validateUpdateAgendamientoState = (req, res, next) => {
 	const paramsValidation = paramsUpdateAgendamientoState.validate(req.params);
 	if (paramsValidation.error) {
-		return res.status(200).json({ error: paramsValidation.error.details[0].message }) //fix
+		return res.status(400).json({ error: paramsValidation.error.details[0].message }) //fix
 	}
 
 	const bodyValidation = bodyUpdateAgendamientoState.validate(req.body);
 	if (bodyValidation.error) {
-		return res.status(200).json({ error: bodyValidation.error.details[0].message }) //fix
+		return res.status(400).json({ error: bodyValidation.error.details[0].message }) //fix
 	}
 
 	next();

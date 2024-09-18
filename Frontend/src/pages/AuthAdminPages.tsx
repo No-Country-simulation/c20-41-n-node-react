@@ -6,7 +6,9 @@ import Loading from "../components/Loading/Loading";
 
 function AuthAdminPages() {
   const [adminValidation, setAdminValidation] = useState<JSX.Element>(
-    <Loading />
+    <main className="min-h-screen flex">
+      <Loading />
+    </main>
   );
 
   useEffect(() => {

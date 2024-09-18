@@ -16,9 +16,13 @@ import DailyAppointments from "./components/Section/Dashboard-Dr.tsx/DailyAppoin
 import ScheduleAppointments from "./components/Section/Dashboard-Dr.tsx/ScheduleAppointment";
 import AuthDoctorPages from "./pages/AuthDoctorPages";
 import AuthAdminPages from "./pages/AuthAdminPages";
-import AddDoctorSection from "./components/Section/AddDoctorSection";
-import AllConsultsSection from "./components/Section/AllConsultsSection";
-import AllDoctorsSection from "./components/Section/AllDoctorsSection";
+import AddDoctorSection from "./components/Section/Admin/AddDoctorSection";
+import AllConsultsSection from "./components/Section/Admin/AllConsultsSection";
+import AllDoctorsSection from "./components/Section/Admin/AllDoctorsSection";
+import MyConsultSection from "./components/Section/Patient/MyConsultsSection";
+import VideoCall from "./components/VideoCall/VideoCall";
+import EndVideoCall from "./components/VideoCall/EndVideoCall";
+import DoctorConsultSection from "./components/Section/Doctor/DoctorConsultsSection";
 
 function App() {
   return (
@@ -31,7 +35,7 @@ function App() {
 
           <Route element={<AuthPatientPages />}>
             <Route path="paciente/*" element={<HomePage />}>
-              <Route path="mis-citas" element={<WhyUsSection />} />
+              <Route path="mis-citas" element={<MyConsultSection />} />
               <Route path="agendar-cita" element={<TestimonialSection />} />
               <Route path="mis-resultados" element={<FeatureSection />} />
               <Route path="ver-perfil" element={<FeatureSection />} />
@@ -41,15 +45,14 @@ function App() {
 
           <Route element={<AuthDoctorPages />}>
             <Route path="medico/*" element={<HomePage />}>
-              <Route path="citas-del-dia" element={<WhyUsSection />} />
               <Route
                 path="todas-las-citas"
-                element={<TestimonialSection />}
+                element={<DoctorConsultSection/>}
               />
               <Route path="consultar-horario" element={<ScheduleAppointments />} />
               <Route path="lista-de-pacientes" element={<FeatureSection />} />
               <Route path="ver-perfil" element={<FeatureSection />} />
-              <Route path="*" element={<Navigate to="citas-del-dia" />} />
+              <Route path="*" element={<Navigate to="todas-las-citas" />} />
             </Route>
           </Route>
 
@@ -89,6 +92,9 @@ function App() {
             <Route path="ver-perfil" element={<FeatureSection />} />
             <Route path="" element={<Navigate to="lista-de-medicos" />} />
           </Route>
+
+          <Route path="/videollamada" element={<VideoCall/>}></Route>
+          <Route path="/informe-medico" element={<EndVideoCall/>}></Route>
 
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>

@@ -25,7 +25,7 @@ function SelectInput({
       <select
         defaultValue={""}
         className={
-          "ps-1 pb-1 border-b-2 border-gray-200 text-black focus:outline-none focus:border-gray-300 " +
+          "ps-1 pb-1 border-b-2 border-gray-200 text-black focus:outline-none focus:border-gray-300 text-base " +
           classes
         }
         {...register(name, {

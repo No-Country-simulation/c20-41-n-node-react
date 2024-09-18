@@ -30,8 +30,8 @@ function Sidebar() {
     <aside
       className={
         isExpanded
-          ? "fixed left-2 min-h-[98vh] flex flex-col justify-between items-center bg-blue-600 text-white border rounded-xl ps-2 pe-4 w-[240px]"
-          : "fixed left-2 min-h-[98vh] flex flex-col justify-between items-center bg-blue-600 text-white border rounded-xl px-2"
+          ? "fixed z-50 left-2 min-h-[98vh] flex flex-col justify-between items-center bg-blue-600 text-white border rounded-xl ps-2 pe-4 w-[240px]"
+          : "fixed z-50 left-2 min-h-[98vh] flex flex-col justify-between items-center bg-blue-600 text-white border rounded-xl px-2"
       }
     >
       <nav

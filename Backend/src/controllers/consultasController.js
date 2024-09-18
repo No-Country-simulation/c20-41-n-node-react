@@ -5,13 +5,10 @@ export const getAllConsultasController = async (req, res) => {
 	try {
 		const consultas = await getAllConsultas();
 		
-		if (consultas) {
-			return res.status(400).json(consultas);
-		} else {
-			return res.status(500);
-		}
+		return res.status(200).json(consultas);
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -21,29 +18,30 @@ export const getConsultaController = async (req, res) => {
 	try {
 		const consulta = await getConsulta(id_consulta);
 		
-		if (consulta) {
-			return res.status(400).json(consulta);
-		} else {
-			return res.status(500);
-		}
+		return res.status(200).json(consulta);
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
 export const startConsultaController = async (req, res) => {
 	const { id_agendamiento } = req.params;
+	const { urlVideollamada } = req.body;
 	
 	try {
 		const consulta = await startConsulta(id_agendamiento);
+		const agendamiento = await setUrlVideollamada(
+			id_agendamiento, urlVideollamada);
 		
 		if (consulta) {
-			return res.status(400).json(consulta);
+			return res.status(200).json(consulta);
 		} else {
-			return res.status(500);
+			return res.status(400);
 		}
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -54,12 +52,13 @@ export const endConsultaController = async (req, res) => {
 		const consulta = await endConsulta(id_consulta);
 		
 		if (consulta) {
-			return res.status(400).json(consulta);
+			return res.status(200).json(consulta);
 		} else {
-			return res.status(500);
+			return res.status(400);
 		}
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -69,13 +68,10 @@ export const getNotasConsultaController = async (req, res) => {
 	try {
 		const notas = await getNotasConsulta(id_consulta);
 
-		if (notas) {
-			return res.status(400).json(notas);
-		} else {
-			return res.status(500);
-		}
+		return res.status(200).json(notas);
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -87,12 +83,13 @@ export const postNotaConsultaController = async (req, res) => {
 		const nota = await postNotaConsulta(id_consulta, nota);
 
 		if (nota) {
-			return res.status(400).json(nota);
+			return res.status(201).json(nota);
 		} else {
-			return res.status(500);
+			return res.status(400);
 		}
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -102,13 +99,10 @@ export const getConclusionConsultaController = async (req, res) => {
 	try {
 		const conclusion = await getConclusionesConsulta(id_consulta);
 		
-		if (conclusion) {
-			return res.status(400).json(conclusion);
-		} else {
-			return res.status(500);
-		}
+		return res.status(200).json(conclusion);
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -120,11 +114,12 @@ export const postConclusionConsultaController = async (req, res) => {
 		const conclusion = await postConclusionConsulta(id_consulta, conclusion);
 		
 		if (conclusion) {
-			return res.status(400).json(conclusion);
+			return res.status(201).json(conclusion);
 		} else {
-			return res.status(500);
+			return res.status(400);
 		}
 	} catch(error) {
 		console.error(error);
+		return res.status(500).json(error);
 	}
 }

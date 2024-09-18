@@ -5,13 +5,12 @@ export const getAllHorariosController = async (req, res) => {
 	try {
 		const horarios = await getAllHorarios();
 
-		return res.status(400).json(horarios);
+		return res.status(200).json(horarios);
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({error});
 	}
 }
-
 
 export const getHorariosController = async (req, res) => {
 	const { id_medico } = req.params;
@@ -41,7 +40,7 @@ export const updateHorariosController = async (req, res) => {
 				horario_inicio_jornada, horario_fin_jornada,
 				minutos_sesion, minutos_descanso);
 
-			return res.status(400).json(horarios);
+			return res.status(200).json(horarios);
 		} else {
       return res.status(404).json([], {statusText: "medicx no existe"})
 		}

@@ -1,133 +1,37 @@
-import { ChangeEvent, useState } from "react";
-import ConsultCard from "../Card/ConsultCard";
-import SearchIcon from "../../icons/Search";
+import { ChangeEvent, useEffect, useState } from "react";
+import ConsultCard from "../../Card/ConsultCard";
+import SearchIcon from "../../../icons/Search";
+import { getAllConsult } from "../../../api/auth";
+import Loading from "../../Loading/Loading";
 
 export type Consult = {
-  fecha: string;
-  horaInicio: string;
-  horaFin: string;
+  fechahora_inicio: string;
+  fechahora_fin: string;
   medico: string;
+  nombre_medico: string
+  apellido_medico: string;
   paciente: string;
-  estado: "Reservado" | "Finalizado" | "Cancelado";
+  nombre_paciente: string;
+  apellido_paciente: string;
+  estado: "RESERVADO" | "FINALIZADO" | "CANCELADO";
 };
 
 function AllConsultSection() {
-  const exampleData = [
-    {
-      fecha: "13-09-2024",
-      horaInicio: "09:00",
-      horaFin: "10:00",
-      medico: "Juan Miguel",
-      paciente: "José Gutierrez",
-      estado: "Reservado",
-    },
-    {
-      fecha: "12-09-2024",
-      horaInicio: "11:00",
-      horaFin: "12:00",
-      medico: "Rosa Dolores",
-      paciente: "Zack Jordan",
-      estado: "Finalizado",
-    },
-    {
-      fecha: "09-09-2024",
-      horaInicio: "08:00",
-      horaFin: "09:30",
-      medico: "Coby Bryan",
-      paciente: "Diana Ramirez",
-      estado: "Cancelado",
-    },
-    {
-      fecha: "13-09-2024",
-      horaInicio: "15:00",
-      horaFin: "16:00",
-      medico: "Roberto Velasquez",
-      paciente: "Ariana Sanchez",
-      estado: "Reservado",
-    },
-    {
-      fecha: "10-09-2024",
-      horaInicio: "12:00",
-      horaFin: "13:00",
-      medico: "Lucas Lozada",
-      paciente: "Emmanuel Diaz",
-      estado: "Finalizado",
-    },
-    {
-      fecha: "20-09-2024",
-      horaInicio: "17:00",
-      horaFin: "18:00",
-      medico: "Lionel Messi",
-      paciente: "Cristiano Ronaldo",
-      estado: "Cancelado",
-    },
-    {
-      fecha: "13-09-2024",
-      horaInicio: "07:00",
-      horaFin: "08:00",
-      medico: "Juana Miranda",
-      paciente: "Sonia Magallanes",
-      estado: "Reservado",
-    },
-    {
-      fecha: "15-09-2024",
-      horaInicio: "09:00",
-      horaFin: "10:00",
-      medico: "Jandro Salas",
-      paciente: "Miguel Cumare",
-      estado: "Finalizado",
-    },
-    {
-      fecha: "12-09-2024",
-      horaInicio: "20:00",
-      horaFin: "21:00",
-      medico: "Maria Carvajal",
-      paciente: "Petra Missisipi",
-      estado: "Finalizado",
-    },
-    {
-      fecha: "25-09-2024",
-      horaInicio: "07:00",
-      horaFin: "08:00",
-      medico: "Lionel Messi",
-      paciente: "Gareth Bale",
-      estado: "Cancelado",
-    },
-    {
-      fecha: "13-09-2024",
-      horaInicio: "12:00",
-      horaFin: "13:00",
-      medico: "Lucas Lozada",
-      paciente: "Maria Missisipi",
-      estado: "Reservado",
-    },
-    {
-      fecha: "11-09-2024",
-      horaInicio: "15:00",
-      horaFin: "16:00",
-      medico: "Jandro Salas",
-      paciente: "Roberto Gomez",
-      estado: "Finalizado",
-    },
-    {
-      fecha: "24-09-2024",
-      horaInicio: "17:00",
-      horaFin: "18:00",
-      medico: "Juan Duarte",
-      paciente: "Lidia Michelini",
-      estado: "Cancelado",
-    },
-    {
-      fecha: "13-09-2024",
-      horaInicio: "10:00",
-      horaFin: "11:00",
-      medico: "Coby Bryan",
-      paciente: "Cristiano Ronaldo",
-      estado: "Reservado",
-    },
-  ];
+  const [consults, setConsults] = useState<Consult[] | []>([]);
+  const [isLoading, setIsLoading] = useState(true)
 
-  const consults = exampleData;
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getAllConsult();
+      return response;
+    };
+
+    getData().then((res) => {
+      setIsLoading(false)
+      setConsults(res.data as Consult[]);
+    });
+  }, []);
+
   const lastPage = consults.length;
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState("");
@@ -141,9 +45,8 @@ function AllConsultSection() {
       .filter((element) =>
         element[
           filter as
-            | "fecha"
-            | "horaInicio"
-            | "horaFin"
+            | "fechahora_inicio"
+            | "fechahora_fin"
             | "medico"
             | "paciente"
             | "estado"
@@ -160,9 +63,8 @@ function AllConsultSection() {
     const filtered = consults.filter((element) =>
       element[
         filter as
-          | "fecha"
-          | "horaInicio"
-          | "horaFin"
+          | "fechahora_inicio"
+          | "fechahora_fin"
           | "medico"
           | "paciente"
           | "estado"
@@ -198,8 +100,8 @@ function AllConsultSection() {
             Filtrar por...
           </option>
           <option value="fecha">Fecha</option>
-          <option value="horaInicio">Hora Inicio</option>
-          <option value="horaFin">Hora Fin</option>
+          <option value="fechahora_inicio">Hora Inicio</option>
+          <option value="fechahora_fin">Hora Fin</option>
           <option value="paciente">Paciente</option>
           <option value="medico">Médico</option>
           <option value="estado">Estado</option>
@@ -231,15 +133,12 @@ function AllConsultSection() {
         </article>
       </header>
 
-      {filterData().length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : filterData().length > 0 ? (
         <ul className="px-4 min-w-full grid gap-8 sm:grid-cols-2 md:p-8 lg:p-10 lg:grid-cols-3 xl:py-10 xl:px-20 xl:grid-cols-4 ">
           {filterData().map((element, id) => {
-            return (
-              <ConsultCard
-                key={element.paciente + id}
-                consult={element as Consult}
-              />
-            );
+            return <ConsultCard key={id} consult={element as Consult} />;
           })}
         </ul>
       ) : (

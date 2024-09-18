@@ -6,7 +6,9 @@ import Loading from "../components/Loading/Loading";
 
 function AuthPatientPages() {
   const [patientValidation, setPatientValidation] = useState<JSX.Element>(
+    <main className="min-h-screen flex">
     <Loading />
+  </main>
   );
 
   useEffect(() => {

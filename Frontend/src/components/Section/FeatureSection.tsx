@@ -6,11 +6,11 @@ import HistoryIcon from "../../icons/History";
 
 function FeatureSection() {
   return (
-    <section className="px-6 py-8 max-w-4xl mx-auto">
+    <section className="px-6 lg:px-10 py-8 max-w-6xl mx-auto">
       <h2 className="text-3xl font-semibold text-center py-6 text-blue-500 mb-4">
         Nuestros Servicios de Telemedicina
       </h2>
-      <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 ">
+      <ul className="grid gap-16 sm:grid-cols-2 lg:grid-cols-2 ">
         <li>
           <FeatureCard
             title="Horario Flexible"

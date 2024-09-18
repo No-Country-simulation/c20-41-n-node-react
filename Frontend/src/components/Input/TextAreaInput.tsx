@@ -10,7 +10,7 @@ type Props = {
   classes?: string;
 };
 
-function TelephoneInput({
+function TextInput({
   name,
   placeholder,
   register,
@@ -20,17 +20,17 @@ function TelephoneInput({
 }: Props) {
   return (
     <label className="flex flex-col">
-      <input
-        type="tel"
+      <textarea
+        rows={16}
         placeholder={placeholder}
         className={
-          "ps-2 pb-1 border-b-2 bg-transparent border-gray-200 focus:outline-none text-base " +
+          "p-4 border-2 rounded-lg bg-transparent border-gray-400 focus:outline-none text-base resize-none" +
           classes
         }
         {...register(name, {
           required: { value: true, message: "Este campo es requerido" },
         })}
-      />
+      ></textarea>
       {errors[name] && (
         <InputError
           color={error_color}
@@ -41,4 +41,4 @@ function TelephoneInput({
   );
 }
 
-export default TelephoneInput;
+export default TextInput;
