@@ -2,7 +2,8 @@ import { getAllAgendamientos, getAllAgendamientosPaciente,
 	getAgendamiento, agendar, getAllAgendamientosDisponibles,
 	getAgendamientosDisponibles, getAgendamientosDisponiblesPorEspecialidad,
 	updateAgendamientoState, 
-	getAllAgendamientosMedico}
+	getAllAgendamientosMedico,
+	getNotaConclusion, postNotaConclusion }
 	from '../models/agendamientosModel.js';
 
 export const getAllAgendamientosController = async (req, res) => {
@@ -134,7 +135,7 @@ export const agendarController = async (req, res) => {
 		if (turno) {
 			return res.status(201).json(turno);
 		} else {
-			return res.json({error: 'no se puede agendar el turno'});
+			return res.status(400).json({error: 'no se puede agendar el turno'});
 		}
 	} catch(error) {
 		console.log('Error al agendar turno');
@@ -144,10 +145,10 @@ export const agendarController = async (req, res) => {
 
 export const updateAgendamientoStateController = async (req, res) => {
 	const { id_agendamiento } = req.params;
-	const { estado } = req.body;
+	const { estado, url_videollamada  } = req.body;
 
 	try {
-		const agendamiento = await updateAgendamientoState(id_agendamiento, estado);
+		const agendamiento = await updateAgendamientoState(id_agendamiento, estado, url_videollamada);
 
 		if (agendamiento) {
 			return res.status(200).json(agendamiento);
@@ -159,3 +160,32 @@ export const updateAgendamientoStateController = async (req, res) => {
 		res.status(500).json({ error: 'Error interno del servidor.' });
 	}
 }
+
+
+export const getNotaConclusionController = async (req, res) => {
+	const { id_agendamiento } = req.params;
+
+	try {
+		const nota = await getNotaConclusion(id_agendamiento);
+
+		return res.status(200).json(nota);
+	} catch(error) {
+		console.error(error);
+		res.status(500).json({ error: 'Error interno del servidor.' });
+	}
+}
+
+export const postNotaConclusionController = async (req, res) => {
+	const { id_agendamiento } = req.params;
+	const { nota } = req.body;
+
+	try {
+		const conclusion = await postNotaConclusion(id_agendamiento, nota);
+
+		return res.status(201).json(conclusion);
+	} catch(error) {
+		console.error(error);
+		res.status(500).json({ error: 'Error interno del servidor.' });
+	}
+}
+

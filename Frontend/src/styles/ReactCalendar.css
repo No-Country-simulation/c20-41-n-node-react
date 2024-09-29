@@ -1,0 +1,111 @@
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+}
+
+.react-calendar__navigation__arrow {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+
+}
+
+.react-calendar__navigation__label {
+    height: 100%;
+    flex: 1;
+}
+
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next-button,
+.react-calendar__navigation__next2-button {
+    visibility: hidden;
+}
+
+.react-calendar__navigation__prev-button::before {
+    visibility: visible;
+    content: "🢠";
+    color: #2563eb;
+}
+
+.react-calendar__navigation__next-button::before {
+    visibility: visible;
+    content: "🢣";
+    color: #2563eb;
+}
+
+
+.react-calendar__navigation__label__labelText,
+.react-calendar__navigation__label__labelText--from {
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2563eb;
+    letter-spacing: 0.1rem;
+}
+
+.react-calendar__month-view__weekdays {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: 600;
+    border-bottom: 1px solid rgb(175, 175, 175);
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+    text-decoration: none;
+    padding: 12px 0px;
+}
+
+.react-calendar__month-view__days {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.react-calendar__tile,
+.react-calendar__month-view__days__day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    margin: 12px !important;
+}
+
+.react-calendar__tile--now{
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: rgb(162, 162, 162);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.react-calendar__year-view__months{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+}
+
+.react-calendar__year-view__months__month{
+    text-transform: capitalize;
+    border-radius: 10px;
+}
+
+.react-calendar__year-view__months__month:hover{
+    background-color: rgb(236, 236, 236)
+}

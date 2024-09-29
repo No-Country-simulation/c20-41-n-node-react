@@ -145,6 +145,7 @@ CREATE TABLE agendamientos (
 	fechahora_fin TIMESTAMP NOT NULL,
 	estado estado_agendamiento NOT NULL,
 	url_videollamada VARCHAR(50),
+	nota_conclusion TEXT,
 	creadaEl VARCHAR(20) NOT NULL,
 	actualizadaEl VARCHAR(20) NOT NULL
 );
@@ -255,6 +256,8 @@ CREATE VIEW agendamientos_view AS
 		fechahora_inicio,
 		fechahora_fin,
 		estado,
+		url_videollamada,
+		nota_conclusion,
 		creadael, actualizadael,
 		p.*, m.*
 	FROM
@@ -264,3 +267,23 @@ CREATE VIEW agendamientos_view AS
 		JOIN medicos_view m
 			ON m.id_medico=a.id_medico;
 
+CREATE view usuarios_view AS
+	SELECT * from usuarios
+		LEFT JOIN (
+			SELECT 
+				id id_paciente,
+				usuario_id puid
+			FROM pacientes) p
+			ON usuarios.nro_documento=p.puid
+		LEFT JOIN (
+			SELECT 
+				id id_medico,
+				usuario_id muid
+			FROM medicos) m
+			ON usuarios.nro_documento=m.muid
+		LEFT JOIN (
+			SELECT 
+				id id_admin,
+				usuario_id auid
+			FROM admins) a
+			ON usuarios.nro_documento=a.auid;

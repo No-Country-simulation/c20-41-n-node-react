@@ -96,12 +96,12 @@ function AllDoctorsSection() {
           <option value="apellido">Apellido</option>
           <option value="especialidad">Especialidad</option>
         </select>
-        <label className="relative flex items-center flex-1 gap-4">
+        <label className="relative flex items-center flex-1 gap-4 m-0">
           <input
             title="Selecciona un filtro y escribe tu búsqueda..."
             type="text"
             placeholder="Selecciona un filtro y escribe tu búsqueda..."
-            className=" ps-4 pe-8 py-2 w-full border-2 border-black rounded-xl"
+            className=" ps-4 pe-8 py-2 w-full border-2 border-black rounded-xl text-base"
             value={search}
             onChange={onSearchCharge}
           />

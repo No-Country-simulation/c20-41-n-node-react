@@ -9,6 +9,8 @@ export type User = {
   tipo_documento: "DNI" | "Pasaporte";
   nro_documento: number;
   telefono: string;
+  id_paciente?: number;
+  id_medico?: number;
 };
 
 export type UserState = {

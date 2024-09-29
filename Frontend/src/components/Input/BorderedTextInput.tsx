@@ -9,7 +9,6 @@ type Props = {
   title: string;
   error_color?: "red" | "yellow";
   classes?: string;
-  value?: string;
 };
 
 function BorderedTextInput({
@@ -19,8 +18,7 @@ function BorderedTextInput({
   errors,
   error_color,
   classes,
-  title,
-  value
+  title
 }: Props) {
   return (
     <article className="flex flex-col">
@@ -28,7 +26,6 @@ function BorderedTextInput({
         <span className="text-lg">{title}:</span>
         <input
           type="text"
-          value={value}
           placeholder={placeholder}
           className={
             "p-2 border-2 rounded-lg w-full bg-transparent border-gray-400 focus:outline-none text-base invalid:border-red-600 " +

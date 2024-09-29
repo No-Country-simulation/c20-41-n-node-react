@@ -4,7 +4,8 @@ import { getHorarios } from './horariosModel.js';
 export const getAllAgendamientos = async () => {
 	try {
 		const res = await pool.query(
-			`SELECT * FROM agendamientos_view;`
+			`SELECT * FROM agendamientos_view
+			ORDER BY fechahora_inicio;`
 		);
 
 		return res.rows;
@@ -19,7 +20,7 @@ export const getAgendamiento = async (id_agendamiento) => {
 		const res = await pool.query(
 			`SELECT *
 			FROM agendamientos_view
-			WHERE id=$1`,
+			WHERE id_agendamiento=$1`,
 			[id_agendamiento]
 		);
 		return res.rows[0];
@@ -33,7 +34,8 @@ export const getAllAgendamientosPaciente = async (id_paciente) => {
 		const res = await pool.query(
 			`SELECT *
 			FROM agendamientos_view
-			WHERE uid_paciente=$1`,
+			WHERE uid_paciente=$1
+			ORDER BY fechahora_inicio`,
 			[id_paciente]
 		);
 		return res.rows;
@@ -47,7 +49,8 @@ export const getAllAgendamientosMedico = async (id_medico) => {
 		const res = await pool.query(
 			`SELECT *
 			FROM agendamientos_view
-			WHERE uid_medico=$1`,
+			WHERE uid_medico=$1
+			ORDER BY fechahora_inicio`,
 			[id_medico]
 		);
 		return res.rows;
@@ -58,12 +61,12 @@ export const getAllAgendamientosMedico = async (id_medico) => {
 
 
 // cambiar estado de un agendamiento
-export const updateAgendamientoState = async (id_agendamiento, estado) => {
+export const updateAgendamientoState = async (id_agendamiento, estado, url_videollamada) => {
 	try {
 		const res = await pool.query(
 			`UPDATE agendamientos SET estado=$2, actualizadaEl=TO_CHAR(NOW(),
-				'DD-MM-YYYY') WHERE id=$1 RETURNING *`,
-			[id_agendamiento, estado]
+				'DD-MM-YYYY'), url_videollamada=$3 WHERE id=$1 RETURNING *`,
+			[id_agendamiento, estado, url_videollamada]
 		);
 
 		return res.rows[0];
@@ -353,6 +356,32 @@ export const setUrlVideollamada = async (id_agendamiento, urlVideollamada) => {
 		const res = await pool.query(
 			`UPDATE agendamientos SET url_videollamada=$2 WHERE id_agendamiento=$1 RETURNING *`,
 			[id_agendamiento, urlVideollamada]
+		);
+
+		return res.rows[0];
+	} catch(error) {
+		console.error(error);
+	}
+}
+
+export const getNotaConclusion = async (id_agendamiento) => {
+	try {
+		const res = await pool.query(
+			`SELECT nota_conclusion FROM agendamientos WHERE id=$1`,
+			[id_agendamiento]
+		);
+
+		return res.rows[0];
+	} catch(error) {
+		console.error(error);
+	}
+}
+
+export const postNotaConclusion = async (id_agendamiento, nota) => {
+	try {
+		const res = await pool.query(
+			`UPDATE agendamientos SET nota_conclusion=$2 WHERE id=$1 RETURNING *`,
+			[id_agendamiento, nota]
 		);
 
 		return res.rows[0];

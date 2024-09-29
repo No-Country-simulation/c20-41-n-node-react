@@ -8,12 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import AuthPatientPages from "./pages/AuthPatientPages";
-import WhyUsSection from "./components/Section/WhyUsSection";
-import TestimonialSection from "./components/Section/TestimonialsSection";
 import FeatureSection from "./components/Section/FeatureSection";
-import AppointmentsList from "./components/Section/Dashboard-Dr.tsx/AppointmentList";
-import DailyAppointments from "./components/Section/Dashboard-Dr.tsx/DailyAppointments";
-import ScheduleAppointments from "./components/Section/Dashboard-Dr.tsx/ScheduleAppointment";
 import AuthDoctorPages from "./pages/AuthDoctorPages";
 import AuthAdminPages from "./pages/AuthAdminPages";
 import AddDoctorSection from "./components/Section/Admin/AddDoctorSection";
@@ -23,6 +18,7 @@ import MyConsultSection from "./components/Section/Patient/MyConsultsSection";
 import VideoCall from "./components/VideoCall/VideoCall";
 import EndVideoCall from "./components/VideoCall/EndVideoCall";
 import DoctorConsultSection from "./components/Section/Doctor/DoctorConsultsSection";
+import ScheduleConsult from "./components/Section/Patient/ScheduleConsult";
 
 function App() {
   return (
@@ -36,7 +32,7 @@ function App() {
           <Route element={<AuthPatientPages />}>
             <Route path="paciente/*" element={<HomePage />}>
               <Route path="mis-citas" element={<MyConsultSection />} />
-              <Route path="agendar-cita" element={<TestimonialSection />} />
+              <Route path="agendar-cita" element={<ScheduleConsult />} />
               <Route path="mis-resultados" element={<FeatureSection />} />
               <Route path="ver-perfil" element={<FeatureSection />} />
               <Route path="*" element={<Navigate to="mis-citas" />} />
@@ -47,9 +43,9 @@ function App() {
             <Route path="medico/*" element={<HomePage />}>
               <Route
                 path="todas-las-citas"
-                element={<DoctorConsultSection/>}
+                element={<DoctorConsultSection />}
               />
-              <Route path="consultar-horario" element={<ScheduleAppointments />} />
+              {/* <Route path="consultar-horario" element={<ScheduleAppointments />} /> */}
               <Route path="lista-de-pacientes" element={<FeatureSection />} />
               <Route path="ver-perfil" element={<FeatureSection />} />
               <Route path="*" element={<Navigate to="todas-las-citas" />} />
@@ -66,35 +62,12 @@ function App() {
             </Route>
           </Route>
 
-
-          {/* Rutas de Prueba que no requieren Backend: */}
-
-          <Route path="/prueba-paciente/*" element={<HomePage />}>
-            <Route path="mis-consultas" element={<WhyUsSection />} />
-            <Route path="agendar-citas" element={<TestimonialSection />} />
-            <Route path="mis-resultados" element={<FeatureSection />} />
-            <Route path="ver-perfil" element={<FeatureSection />} />
-            <Route path="" element={<Navigate to="mis-consultas" />} />
+          <Route path="/videollamada">
+            <Route path=":id_agendamiento" element={<VideoCall />}></Route>
           </Route>
-
-          <Route path="/prueba-medico/*" element={<HomePage />}>
-            <Route path="citas-del-dia" element={<DailyAppointments />} />
-            <Route path="consultar-cita-del-mes" element={<AppointmentsList />} />
-            <Route path="listado-de-pacientes" element={<FeatureSection />} />
-            <Route path="ver-perfil" element={<FeatureSection />} />
-            <Route path="" element={<Navigate to="citas-del-dia" />} />
+          <Route path="/informe-medico">
+            <Route path=":id_agendamiento" element={<EndVideoCall />}></Route>
           </Route>
-
-          <Route path="/prueba-admin/*" element={<HomePage />}>
-            <Route path="lista-de-medicos" element={<AllDoctorsSection />} />
-            <Route path="registrar-medico" element={<AddDoctorSection />} />
-            <Route path="todas-las-citas" element={<AllConsultsSection />} />
-            <Route path="ver-perfil" element={<FeatureSection />} />
-            <Route path="" element={<Navigate to="lista-de-medicos" />} />
-          </Route>
-
-          <Route path="/videollamada" element={<VideoCall/>}></Route>
-          <Route path="/informe-medico" element={<EndVideoCall/>}></Route>
 
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>

@@ -12,26 +12,34 @@ const DailyAppointments = () => {
   );
 
   return (
-    <div className="daily-card-container">
-      <h2 className="daily-card-title">Citas del Día: {today}</h2>
-      {filteredAppointments.length > 0 ? (
-        filteredAppointments.map((appointment) => (
-          <div key={appointment.id} className="appointment-card">
-            <div className="card-header">
-              <h3>{appointment.patient}</h3>
-              <span className={`status ${appointment.status.toLowerCase()}`}>
-                {appointment.status}
-              </span>
-            </div>
-            <div className="card-body">
-              <p><strong>Hora:</strong> {appointment.time}</p>
-              <p><strong>Tipo de Cita:</strong> {appointment.type}</p>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>No hay citas para el día de hoy</p>
-      )}
+    <div className="appointments-container">
+      <h2>Citas del Día: {today}</h2>
+      <table className="appointments-table">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Hora</th>
+            <th>Tipo de Cita</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredAppointments.length > 0 ? (
+            filteredAppointments.map((appointment) => (
+              <tr key={appointment.id}>
+                <td>{appointment.patient}</td>
+                <td>{appointment.time}</td>
+                <td>{appointment.type}</td>
+                <td>{appointment.status}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4}>No hay citas para el día de hoy</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

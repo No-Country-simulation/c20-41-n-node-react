@@ -15,7 +15,7 @@ export const createUserModel = async (nro_documento, nombre, apellido, genero, f
 
 export const getUserByNroDocumento = async(nro_documento) => {
   try {
-    const query = await pool.query('SELECT * FROM usuarios WHERE nro_documento= $1',
+    const query = await pool.query('SELECT * FROM usuarios_view WHERE nro_documento= $1',
       [nro_documento]
     )
     return query.rows[0]
@@ -26,7 +26,7 @@ export const getUserByNroDocumento = async(nro_documento) => {
 
 export const getUserByEmail = async(email) => {
   try {
-    const query = await pool.query('SELECT * FROM usuarios WHERE email= $1',
+    const query = await pool.query('SELECT * FROM usuarios_view WHERE email= $1',
       [email]
     )
     return query.rows[0]

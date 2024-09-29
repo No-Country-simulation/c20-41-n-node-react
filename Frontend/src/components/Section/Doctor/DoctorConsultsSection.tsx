@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import SearchIcon from "../../../icons/Search";
-import { getDoctorConsult } from "../../../api/auth";
+import { getDoctorConsults } from "../../../api/auth";
 import Loading from "../../Loading/Loading";
 import { UserContext } from "../../../context/UserContext";
 import DoctorConsultCard from "../../Card/DoctorConsultCard";
@@ -11,9 +11,11 @@ export type Consult = {
   fecha_inicio: string;
   fecha_fin: string;
   paciente: string;
+  id_agendamiento: number
   nombre_paciente: string;
   apellido_paciente: string;
   estado: "RESERVADO" | "FINALIZADO" | "CANCELADO" | "INICIADO";
+  url_videollamada: string
 };
 
 function DoctorConsultSection() {
@@ -24,7 +26,7 @@ function DoctorConsultSection() {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await getDoctorConsult(user?.nro_documento);
+      const response = await getDoctorConsults(user?.nro_documento);
       return response;
     };
 
@@ -51,7 +53,7 @@ function DoctorConsultSection() {
             | "fechahora_fin"
             | "paciente"
             | "estado"
-        ].includes(search)
+        ]?.includes(search)
       )
       .slice(currentPage, currentPage + 12);
     return filtered;

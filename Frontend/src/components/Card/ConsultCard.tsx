@@ -28,7 +28,7 @@ function ConsultCard({ consult }: Props) {
         <span className={statusClasses[consult.estado]}>{consult.estado}</span>
         <h2 className="flex gap-2">
           <CalendarMonthIcon className="text-blue-600" />
-          {consult.fechahora_inicio.split("T")[0]}
+          {new Date(consult.fechahora_inicio).toLocaleDateString()}
         </h2>
       </header>
       <span className="flex gap-2">
@@ -39,8 +39,8 @@ function ConsultCard({ consult }: Props) {
       </span>
       <span className="flex gap-2">
         <TimeIcon className="text-blue-600" />
-        {consult.fechahora_inicio.split("T")[1].slice(0, 5)} -{" "}
-        {consult.fechahora_fin.split("T")[1].slice(0, 5)}
+        {new Date(consult.fechahora_inicio).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})} -{" "}
+        {new Date(consult.fechahora_fin).toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"})}
       </span>
     </li>
   );

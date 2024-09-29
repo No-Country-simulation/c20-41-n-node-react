@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import MenuIcon from "../../icons/Menu";
 import ProfileIcon from "../../icons/Profile";
 import { useEffect, useState } from "react";
+import EmoticareHeaderIcon from "../../images/EmoticareHeaderIcon.png";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -20,7 +21,7 @@ function Navbar() {
         <div className="flex justify-between flex-1 md:flex-none">
           <NavLink to="/" className="mobile_icon">
             <img
-              src="src/images/Sin_título-removebg-preview.png"
+              src={EmoticareHeaderIcon}
               alt="icon"
               className="h-[48px] md:h-[68px]"
             />

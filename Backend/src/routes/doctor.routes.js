@@ -8,8 +8,6 @@ router.get('/doctor', (req, res) => {
   } else {
     res.status(401).send({ error: "No autorizado" })
   }
-  console.log(req.session)
-  console.log(req.user)
 })
 
 export default router

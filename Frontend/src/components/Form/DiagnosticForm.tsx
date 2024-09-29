@@ -3,26 +3,53 @@ import TextAreaInput from "../Input/TextAreaInput";
 import BorderedTextInput from "../Input/BorderedTextInput";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import {getConsult, saveConsultNotes } from "../../api/auth";
 
-function DiagnosticForm() {
+type Props = {
+  id_agendamiento: number;
+};
+
+function DiagnosticForm({ id_agendamiento }: Props) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getConsult(id_agendamiento);
+      return response;
+    };
 
-  const onSubmit = handleSubmit((values) => {
-    alert(`Informe Médico de la Consulta
-        Fecha: ${values.fecha}
-        Médico: ${values.medico}
-        Paciente: ${values.paciente}
-        Diagnóstico: ${values.diagnostico}`);
-    // Petición POST al Backend
-    // Si todo sale bien:
-    toast.success("Informe médico guardado exitosamente", { position: "bottom-right" });
-    navigate("/medico/citas-del-dia")
+    getData().then((res) => {
+      if (!res.error) {
+        res.data.fecha_inicio = new Date(
+          res.data.fecha_inicio
+        ).toLocaleDateString();
+        setValue("fecha", res.data.fecha_inicio);
+        setValue(
+          "medico",
+          res.data.nombre_medico + " " + res.data.apellido_medico
+        );
+        setValue(
+          "paciente",
+          res.data.nombre_paciente + " " + res.data.apellido_paciente
+        );
+      }
+    });
+  }, [id_agendamiento, setValue]);
+
+  const navigate = useNavigate();
+
+  const onSubmit = handleSubmit(async (values) => {
+    const response = await saveConsultNotes(id_agendamiento, values.diagnostico)
+    if (!response.error){
+      toast.success("El diagnóstico ha sido guardado exitosamente", {position: "bottom-right"})
+      navigate("/medico/todas-las-citas");
+    }
   });
 
   return (

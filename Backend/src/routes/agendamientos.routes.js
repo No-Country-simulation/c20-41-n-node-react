@@ -6,7 +6,9 @@ import { getAllAgendamientosController, getAgendamientoController,
 	agendarController,
 	updateAgendamientoStateController, 
 	getAgendamientosPacienteController,
-	getAgendamientosMedicoController}
+	getAgendamientosMedicoController,
+	getNotaConclusionController,
+	postNotaConclusionController }
 	from '../controllers/agendamientosController.js';
 import { validateGetAgendamiento,
 	validateGetAgendamientosDisponibles, validateAgendar,
@@ -35,5 +37,10 @@ router.get('/agendamientos/disponibles/medico/:id_medico',
 router.get('/agendamientos/disponibles/especialidad/:id_especialidad',
 	validateGetAgendamientosDisponiblesPorEspecialidad,
 	getAgendamientosDisponiblesPorEspecialidadController);
+
+router.get('/agendamientos/:id_agendamiento/nota_conclusion',
+	/*validateGetNotaConclusion,*/ getNotaConclusionController);
+router.post('/agendamientos/:id_agendamiento/nota_conclusion',
+	/*validateGetAgendamiento,*/ postNotaConclusionController);
 
 export default router

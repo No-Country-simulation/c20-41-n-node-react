@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import SearchIcon from "../../../icons/Search";
-import { getConsult } from "../../../api/auth";
+import { getPatientConsults } from "../../../api/auth";
 import Loading from "../../Loading/Loading";
 import MyConsultCard from "../../Card/MyConsultCard";
 import { UserContext } from "../../../context/UserContext";
@@ -15,6 +15,7 @@ export type Consult = {
   apellido_medico: string;
   nombre_esp_medico: string;
   estado: "RESERVADO" | "FINALIZADO" | "CANCELADO" | "INICIADO";
+  url_videollamada: string;
 };
 
 function MyConsultSection() {
@@ -25,7 +26,7 @@ function MyConsultSection() {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await getConsult(user?.nro_documento);
+      const response = await getPatientConsults(user?.nro_documento);
       return response;
     };
 
@@ -52,7 +53,7 @@ function MyConsultSection() {
             | "fechahora_fin"
             | "medico"
             | "estado"
-        ].includes(search)
+        ]?.includes(search)
       )
       .slice(currentPage, currentPage + 12);
     return filtered;

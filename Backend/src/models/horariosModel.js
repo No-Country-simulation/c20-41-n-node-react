@@ -39,6 +39,23 @@ export const getHorarios = async (id_medico) => {
   }
 }
 
+export const getHorariosBySpeciality = async (id_especialidad) => {
+	try {
+    const query = await pool.query(
+			`SELECT horarios.hora_inicio, horarios.hora_fin, horarios.id_medico, horarios.dia_semana, especialidades.nombre AS especialidad, (usuarios.nombre || ' ' || usuarios.apellido) AS nombre_completo from horarios
+			INNER JOIN medicos ON horarios.id_medico = medicos.id
+			INNER JOIN usuarios ON medicos.usuario_id = usuarios.nro_documento
+			INNER JOIN especialidades ON especialidades.id = medicos.especialidad_id 
+			WHERE medicos.especialidad_id = $1
+			ORDER BY horarios.hora_inicio;`,
+			[id_especialidad]
+		);
+		return query.rows;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const getAllHorarios = async () => {
 	try {
     const query = await pool.query(

@@ -8,7 +8,7 @@ export type Consult = {
   fechahora_inicio: string;
   fechahora_fin: string;
   medico: string;
-  nombre_medico: string
+  nombre_medico: string;
   apellido_medico: string;
   paciente: string;
   nombre_paciente: string;
@@ -18,7 +18,7 @@ export type Consult = {
 
 function AllConsultSection() {
   const [consults, setConsults] = useState<Consult[] | []>([]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -27,7 +27,7 @@ function AllConsultSection() {
     };
 
     getData().then((res) => {
-      setIsLoading(false)
+      setIsLoading(false);
       setConsults(res.data as Consult[]);
     });
   }, []);
@@ -41,6 +41,7 @@ function AllConsultSection() {
     if (search.length === 0 || filter === "") {
       return consults.slice(currentPage, currentPage + 12);
     }
+    
     const filtered = consults
       .filter((element) =>
         element[
@@ -50,7 +51,7 @@ function AllConsultSection() {
             | "medico"
             | "paciente"
             | "estado"
-        ].includes(search)
+        ]?.includes(search)
       )
       .slice(currentPage, currentPage + 12);
     return filtered;
@@ -99,19 +100,18 @@ function AllConsultSection() {
           <option value="" disabled>
             Filtrar por...
           </option>
-          <option value="fecha">Fecha</option>
           <option value="fechahora_inicio">Hora Inicio</option>
           <option value="fechahora_fin">Hora Fin</option>
           <option value="paciente">Paciente</option>
           <option value="medico">Médico</option>
           <option value="estado">Estado</option>
         </select>
-        <label className="relative flex items-center flex-1 gap-4">
+        <label className="relative flex items-center flex-1 gap-4 m-0">
           <input
             title="Selecciona un filtro y escribe tu búsqueda..."
             type="text"
             placeholder="Selecciona un filtro y escribe tu búsqueda..."
-            className=" ps-4 pe-8 py-2 w-full border-2 border-black rounded-xl"
+            className=" ps-4 pe-8 py-2 w-full border-2 border-black rounded-xl text-base"
             value={search}
             onChange={onSearchCharge}
           />
