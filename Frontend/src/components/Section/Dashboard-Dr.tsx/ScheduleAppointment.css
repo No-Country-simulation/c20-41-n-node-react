@@ -100,3 +100,9 @@
 .hour-slot:hover {
   background-color: #f0f0f0;
 }
+
+
+.confirmed-appointments {
+  position:relative;
+  top:6rem;
+}

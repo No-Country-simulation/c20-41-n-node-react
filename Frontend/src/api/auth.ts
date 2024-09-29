@@ -87,8 +87,15 @@ export const authAdmin = async () => {
 export const getSchedule = async (id) => {
   try {
     const response = await frontend.get(`/horarios/${id}`);
-  }
+    return response;
+  }catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    }
+};
 }
+
+
 export const getAllConsult = async () => {
   try {
     const response = await frontend.get(`/agendamientos`);

@@ -3,16 +3,6 @@ import "./ScheduleAppointment.css";
 import InfoSteps from './InfoSteps';
 import { getSchedule } from '../../../api/auth';
 
-
-const saveToLocalStorage = (data: { [key: string]: boolean }) => {
-  localStorage.setItem('appointments', JSON.stringify(data));
-};
-
-const loadFromLocalStorage = () => {
-  const data = localStorage.getItem('appointments');
-  return data ? JSON.parse(data) : {};
-};
-
 const ScheduleAppointments: React.FC = () => {
   const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
   const hours = [
@@ -21,122 +11,105 @@ const ScheduleAppointments: React.FC = () => {
     '14:00 - 15:00', '15:00 - 16:00'
   ];
 
+  const [appointments, setAppointments] = useState<[{ dia_semana: number, hora_inicio: string, hora_fin: string }] | []>([]);
+  const [confirmedConsultations, setConfirmedConsultations] = useState<{ dia_semana: number, hora_inicio: string, hora_fin: string }[]>([]);
 
-  const [appointments, setAppointments] = useState<[{dia_semana:number, hora_inicio:string, hora_fin:string}]|[]>([]);
-
-  const [confirmedconsultation, setconfirmedconsultation] = useState([])
-
-  const [schedule, setSchedule] = useState([])
+  // Obtener la lista de citas del backend
   useEffect(() => {
     const getconsult = async () => {
-      const response = await getSchedule (19)
-      return response.data
+      const response = await getSchedule(19);
+      return response.data;
     }
     getconsult().then(data => {
-      setAppointments(data)
-    })
-  
-  }, [])
-  
-
-
-
-
-  const handleAppointment = (day: string, hour: string) => {
-    const key = `${day}-${hour}`;
-    setAppointments(prev => {
-      const updated = { ...prev, [key]: !prev[key]};
-      saveToLocalStorage(updated);  
-      return updated;
+      setAppointments(data);
     });
-  };
-
-
-  const cancelAppointment = (day: string, hour: string) => {
-    const key = `${day}-${hour}`;
-    setAppointments(prev => {
-      const updated = { ...prev, [key]: false };  
-      saveToLocalStorage(updated);  
-      return updated;
-    });
-  };
-
-  useEffect(() => {
-    const savedAppointments = loadFromLocalStorage();
-    setAppointments(savedAppointments);
   }, []);
 
-  const selectedAppointments = Object.keys(appointments).filter(key => appointments[key]);
+  // Manejar la selección de una cita
+  const handleAppointment = (day: string, hour: string) => {
+    const startHour = hour.split(' - ')[0];
+    const endHour = hour.split(' - ')[1];
+
+    const startTimeUTC = new Date(`2024-09-17T${startHour}:00Z`).toISOString();
+    const endTimeUTC = new Date(`2024-09-17T${endHour}:00Z`).toISOString();
+
+    const selectedConsultation = {
+      dia_semana: daysOfWeek.indexOf(day),
+      hora_inicio: startTimeUTC,
+      hora_fin: endTimeUTC
+    };
+
+    setConfirmedConsultations(prev => [...prev, selectedConsultation]);
+  };
+
+  // Cancelar una cita
+  const cancelAppointment = (day: string, hour: string) => {
+    const updatedConsultations = confirmedConsultations.filter(appointment => 
+      !(appointment.dia_semana === daysOfWeek.indexOf(day) && appointment.hora_inicio.includes(hour.split(' - ')[0]))
+    );
+    setConfirmedConsultations(updatedConsultations);
+  };
+
   return (
     <>
-    <div className="schedule-container">
-    <InfoSteps></InfoSteps>
-      <div>
-        <table className="schedule-table">
-          <thead>
-            <tr>
-              {daysOfWeek.map(day => (
-                <th key={day}>{day}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="body">
-            {hours.map(hour => (
-              <tr key={hour}>
-                {daysOfWeek.map(day => {
-                  const key = `${day}-${hour}`;
-                  return (
-                    <td
-                      key={key}
-                      className={`cell ${appointments ? 'selected' : ''}`} // Añadir clase selected si está marcada
-                    >
-                      {appointments[key] ? (
-                        <div className="appointment">
-                          <p>{hour}</p>
-                          <button onClick={() => cancelAppointment(day, hour)} className="cancel-btn">Cancelar</button>
-                        </div>
-                      ) : (
+      <div className="schedule-container">
+        <InfoSteps />
+        <div>
+          <table className="schedule-table">
+            <thead>
+              <tr>
+                {daysOfWeek.map(day => (
+                  <th key={day}>{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {hours.map(hour => (
+                <tr key={hour}>
+                  {daysOfWeek.map(day => {
+                    const key = `${day}-${hour}`;
+                    return (
+                      <td
+                        key={key}
+                        className="cell"
+                      >
                         <div onClick={() => handleAppointment(day, hour)} className="hour-slot">
                           {hour}
                         </div>
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <div className="confirmed-appointments">
-    <div className="selected-appointments-container">
+
+      {/* Contenedor de citas confirmadas */}
+      <div className="confirmed-appointments">
         <h3>Citas Seleccionadas</h3>
-        {confirmedconsultation.length > 0 ? (
+        {confirmedConsultations.length > 0 ? (
           <ul>
-            {confirmedconsultation.map((key) => {
-              // const [day, hour] = key.split('-');
-              return (
-                <li key={key} className="selected-appointment-item">
-                  {`${daysOfWeek[key.dia_semana]}, ${key.hora_inicio}`}
-                  <button onClick={() => cancelAppointment(key.dia_semana, key.hora_inicio)} className="cancel-small-btn">
-                    X
-                  </button>
-                </li>
-              );
-            })}
+            {confirmedConsultations.map((appointment, index) => (
+              <li key={index}>
+                {`${daysOfWeek[appointment.dia_semana]}, de ${appointment.hora_inicio} a ${appointment.hora_fin}`}
+                <button onClick={() => cancelAppointment(daysOfWeek[appointment.dia_semana], appointment.hora_inicio)} className="cancel-small-btn">
+                  X
+                </button>
+              </li>
+            ))}
           </ul>
         ) : (
           <p>No hay citas seleccionadas</p>
         )}
       </div>
-      </div>
     </>
   );
 };
 
-export default ScheduleAppointments;
 
+export default ScheduleAppointments;
 
 
 
